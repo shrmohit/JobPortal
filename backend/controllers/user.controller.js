@@ -104,7 +104,7 @@ export const login = async (req, res) => {
         sameSite: "strict",
       })
       .json({
-        message: "Welcome back ${user.fullname",
+        message: "Welcome back ${user.fullname}",
         success: true,
       });
   } catch (error) {
