@@ -1,7 +1,10 @@
 import { Company } from "../models/company.model.js";
 
 /*
-registercompany
+register company controller logic
+get all companies controller logic
+get company by id controller logic
+update company controller logic
 */
 
 // register company controller logic
