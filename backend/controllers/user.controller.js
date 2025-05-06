@@ -6,6 +6,8 @@ import jwt from "jsonwebtoken";
 export const register = async (req, res) => {
   try {
     const { fullname, email, password, phoneNumber, role } = req.body;
+    const normalizedRole =
+      role.charAt(0).toUpperCase() + role.slice(1).toLowerCase(); // makes "student" -> "Student"
     if (!fullname || !email || !password || !phoneNumber || !role) {
       return res.status(400).json({
         message: "something is missing",
@@ -28,7 +30,7 @@ export const register = async (req, res) => {
       email,
       password: hashedpassword,
       phoneNumber,
-      role,
+      role: normalizedRole,
     });
 
     return res.status(201).json({

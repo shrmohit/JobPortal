@@ -4,7 +4,10 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { RadioGroup } from "@/components/ui/radio-group";
 import { Button } from "../ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { USER_API_END_POINT } from "../../utils/constant";
+import axios from "axios";
+import { toast } from "sonner";
 
 const login = () => {
   const [input, setInput] = useState({
@@ -12,7 +15,7 @@ const login = () => {
     password: "",
     role: "",
   });
-
+  const navigate = useNavigate();
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
@@ -20,6 +23,21 @@ const login = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     console.log(input);
+    try {
+      const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+      if (res.data.success) {
+        navigate("/");
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
   };
   return (
     <div>
@@ -57,9 +75,9 @@ const login = () => {
                 <Input
                   type="radio"
                   name="role"
-                  checked={input.role === "student"}
+                  checked={input.role === "Student"}
                   onChange={changeEventHandler}
-                  value="student"
+                  value="Student"
                   className="cursor-pointer"
                 ></Input>
                 <Label htmlFor="r1">Student</Label>
@@ -68,9 +86,9 @@ const login = () => {
                 <Input
                   type="radio"
                   name="role"
-                  value="recruiter"
+                  value="Recruiter"
                   onChange={changeEventHandler}
-                  checked={input.role === "recruiter"}
+                  checked={input.role === "Recruiter"}
                   className="cursor-pointer"
                 ></Input>
                 <Label htmlFor="r2">Recruiter</Label>
