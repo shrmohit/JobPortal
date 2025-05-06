@@ -8,6 +8,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { LogOut, User2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import Jobs from "../Jobs";
+import Browse from "../Browse";
 
 const Navbar = () => {
   const user = true;
@@ -20,10 +22,19 @@ const Navbar = () => {
           </h1>
         </div>
         <div className="flex items-center gap-12">
-          <ul className="flex items-center gap-5 font-medium">
-            <li>Home</li>
-            <li>Jobs</li>
-            <li>Brower</li>
+          <ul className="flex items-center gap-5 font-medium cursor-pointer">
+            <Link to="/">
+              {" "}
+              <li>Home</li>
+            </Link>
+            <Link to="/Jobs">
+              {" "}
+              <li>Jobs</li>
+            </Link>
+            <Link to="/Browse">
+              {" "}
+              <li>Browse</li>
+            </Link>
           </ul>
           {user ? (
             <div className="flex items-center gap-2 ">
