@@ -1,11 +1,27 @@
-import { Button } from "@/components/ui/button";
+import Login from "../src/components/auth/Login";
+import Signup from "../src/components/auth/Signup";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Home from "./components/Home";
 
 function App() {
+  const appRouter = createBrowserRouter([
+    {
+      path: "/",
+      element: <Home />,
+    },
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: "/Signup",
+      element: <Signup />,
+    },
+  ]);
   return (
-    <div>
-      <h1 className="text-red-500">let build Job Portal</h1>
-      <Button>Click me</Button>
-    </div>
+    <>
+      <RouterProvider router={appRouter} />
+    </>
   );
 }
 
