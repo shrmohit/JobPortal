@@ -6,8 +6,11 @@ import { RadioGroup } from "@/components/ui/radio-group";
 import { Button } from "../ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { USER_API_END_POINT } from "../../utils/constant";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
+import { setLoading } from "../../redux/authSlice";
 
 const login = () => {
   const [input, setInput] = useState({
@@ -15,7 +18,10 @@ const login = () => {
     password: "",
     role: "",
   });
+
+  const { loading } = useSelector((store) => store.auth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
@@ -24,6 +30,7 @@ const login = () => {
     e.preventDefault();
     console.log(input);
     try {
+      dispatch(setLoading(true));
       const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
         headers: {
           "Content-Type": "application/json",
@@ -37,6 +44,8 @@ const login = () => {
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
+    } finally {
+      dispatch(setLoading(false));
     }
   };
   return (
@@ -95,12 +104,20 @@ const login = () => {
               </div>
             </RadioGroup>
           </div>
-          <Button
-            type="submit"
-            className="w-full my-4 p-5 text-bold text-white text-lg"
-          >
-            Login
-          </Button>
+          {loading ? (
+            <Button className="w-full my-4 ">
+              {" "}
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait{" "}
+            </Button>
+          ) : (
+            <Button
+              type="submit"
+              className="w-full my-4 p-5 text-bold text-white text-lg"
+            >
+              Login
+            </Button>
+          )}
+
           <span className="text-sm">
             Already have an account?{" "}
             <Link
