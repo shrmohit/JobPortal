@@ -131,41 +131,48 @@ export const logout = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    const { fullname, email, phoneNumber, profile, bio, skills } = req.body;
+    const { fullname, email, phoneNumber, bio, skills } = req.body;
     const file = req.file;
 
-    //cloudinary ayega yaha pe
+    const userId = req.id;
+    let user = await User.findById(userId);
 
-    // skill ko array me convert karna hai
+    if (!user) {
+      return res.status(400).json({
+        message: "User not found",
+        success: false,
+      });
+    }
+
+    // ✅ Create profile object if missing
+    if (!user.profile) {
+      user.profile = {};
+    }
+
     let skillsArray;
     if (skills) {
       skillsArray = skills.split(",");
     }
 
-    const userId = req.id;
-    let user = await User.findById(userId);
-    if (!user) {
-      return res.status(400).json({
-        message: "user not found",
-        success: false,
-      });
-    }
-    //resume comes later here..
-    await user.save();
-
-    //update data
+    // ✅ Now safe to update fields
     if (fullname) user.fullname = fullname;
     if (email) user.email = email;
     if (phoneNumber) user.phoneNumber = phoneNumber;
     if (bio) user.profile.bio = bio;
     if (skills) user.profile.skills = skillsArray;
 
+    await user.save();
+
     return res.status(200).json({
       message: "Profile updated successfully",
-      user, //??
+      user,
       success: true,
     });
   } catch (error) {
-    console.log(error);
+    console.error("UpdateProfile Error:", error);
+    return res.status(500).json({
+      message: "Something went wrong",
+      success: false,
+    });
   }
 };

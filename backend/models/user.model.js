@@ -25,11 +25,10 @@ const userSchema = new mongoose.Schema(
       default: "Student",
     },
     profile: {
-      type: String,
-      bio: { type: String },
+      bio: { type: String, default: "" },
       skills: [{ type: String }],
       resume: { type: String },
-      resumeOriginalName: { type: String },
+      resumeOriginalName: { type: String, default: "" },
       company: { type: mongoose.Schema.Types.ObjectId, ref: "company" },
       profilePhoto: { type: String, default: "" },
     },
