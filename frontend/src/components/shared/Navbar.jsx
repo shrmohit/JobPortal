@@ -80,7 +80,8 @@ const Navbar = () => {
                 <PopoverTrigger asChild>
                   <Avatar className="cursor-pointer">
                     <AvatarImage
-                      src="https://github.com/shadcn.png"
+                      // src={user?.profile?.profilePhoto}
+                      src="https://i.pravatar.cc/300"
                       alt="@shadcn"
                     />
                   </Avatar>
@@ -89,13 +90,14 @@ const Navbar = () => {
                   <div className="flex gap-4 space-y-2">
                     <Avatar className="cursor-pointer">
                       <AvatarImage
-                        src="https://github.com/shadcn.png"
+                        // src={user?.profile?.profilePhoto}
+                        src="https://i.pravatar.cc/300"
                         alt="@shadcn"
                       />
                     </Avatar>
                     <div>
-                      <h4 className="font-medium">Mohit Sharma</h4>
-                      <p>Lorem ipsum dolor sit amet.</p>
+                      <h4 className="font-medium">{user?.fullname}</h4>
+                      <p>{user?.profile?.bio}</p>
                     </div>
                   </div>
                   <div className="flex flex-col  text-gray-600">

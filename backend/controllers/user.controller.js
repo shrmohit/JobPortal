@@ -16,6 +16,11 @@ export const register = async (req, res) => {
         success: false,
       });
     }
+
+    //cloudinary
+    const file = req.file;
+    const fileUri = getDataUri(file);
+    const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
     //jab same email se user dubara register karta hai to use below code check karta hai
     const user = await User.findOne({ email });
     if (user) {
@@ -33,6 +38,9 @@ export const register = async (req, res) => {
       password: hashedpassword,
       phoneNumber,
       role: normalizedRole,
+      profile: {
+        profilePhoto: cloudResponse.secure_url,
+      },
     });
 
     return res.status(201).json({
