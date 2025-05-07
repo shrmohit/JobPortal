@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
-import { setLoading } from "../../redux/authSlice";
+import { setLoading, setUser } from "../../redux/authSlice";
 
 const login = () => {
   const [input, setInput] = useState({
@@ -38,7 +38,9 @@ const login = () => {
         withCredentials: true,
       });
       if (res.data.success) {
+        dispatch(setUser(res.data.user));
         navigate("/");
+
         toast.success(res.data.message);
       }
     } catch (error) {

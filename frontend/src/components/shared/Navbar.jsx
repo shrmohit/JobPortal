@@ -10,9 +10,10 @@ import { LogOut, User2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Jobs from "../Jobs";
 import Browse from "../Browse";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
-  const user = true;
+  const { user } = useSelector((store) => store.auth);
   return (
     <div className="bg-white px-10 py-5">
       <div className="flex justify-between items-center mx-auto max-w-7xl ">
@@ -36,7 +37,7 @@ const Navbar = () => {
               <li>Browse</li>
             </Link>
           </ul>
-          {user ? (
+          {!user ? (
             <div className="flex items-center gap-2 ">
               <Link to="/login">
                 {" "}
@@ -80,11 +81,14 @@ const Navbar = () => {
                   <div className="flex flex-col  text-gray-600">
                     <div className="flex w-fit items-center gap-2 cursor-pointer">
                       <User2 />
-                      <Button variant="outline">View Profile</Button>
+                      <Button variant="link">
+                        {" "}
+                        <Link to="/profile">View Profile</Link>
+                      </Button>
                     </div>
                     <div className="flex w-fit items-center gap-2 cursor-pointer">
                       <LogOut />
-                      <Button variant="outline">Logout</Button>
+                      <Button variant="link">Logout</Button>
                     </div>
                   </div>
                 </PopoverContent>
