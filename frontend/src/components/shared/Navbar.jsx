@@ -7,13 +7,33 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { LogOut, User2 } from "lucide-react";
-import { Link } from "react-router-dom";
-import Jobs from "../Jobs";
-import Browse from "../Browse";
-import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "@/redux/authSlice";
+import { toast } from "sonner";
+import axios from "axios";
+import { USER_API_END_POINT } from "../../utils/constant";
 
 const Navbar = () => {
   const { user } = useSelector((store) => store.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const logoutHandler = async () => {
+    try {
+      const res = await axios.get(`${USER_API_END_POINT}/logout`, {
+        withCredentials: true,
+      });
+      if (res.data.success) {
+        dispatch(setUser(null));
+        navigate("/");
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
   return (
     <div className="bg-white px-10 py-5">
       <div className="flex justify-between items-center mx-auto max-w-7xl ">
@@ -88,7 +108,12 @@ const Navbar = () => {
                     </div>
                     <div className="flex w-fit items-center gap-2 cursor-pointer">
                       <LogOut />
-                      <Button variant="link">Logout</Button>
+                      <Button
+                        onClick={logoutHandler}
+                        variant="link"
+                      >
+                        Logout
+                      </Button>
                     </div>
                   </div>
                 </PopoverContent>
