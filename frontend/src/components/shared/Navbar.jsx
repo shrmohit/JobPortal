@@ -17,6 +17,8 @@ import { USER_API_END_POINT } from "../../utils/constant";
 
 const Navbar = () => {
   const { user } = useSelector((store) => store.auth);
+  console.log("User is", user, user.role);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logoutHandler = async () => {
@@ -44,18 +46,33 @@ const Navbar = () => {
         </div>
         <div className="flex items-center gap-12">
           <ul className="flex items-center gap-5 font-medium cursor-pointer">
-            <Link to="/">
-              {" "}
-              <li>Home</li>
-            </Link>
-            <Link to="/Jobs">
-              {" "}
-              <li>Jobs</li>
-            </Link>
-            <Link to="/Browse">
-              {" "}
-              <li>Browse</li>
-            </Link>
+            {user && user?.role?.toLowerCase() === "recruiter" ? (
+              <>
+                <Link to="/admin/companies">
+                  {" "}
+                  <li>Comapny</li>
+                </Link>
+                <Link to="/Jobs">
+                  {" "}
+                  <li>Jobs</li>
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to="/">
+                  {" "}
+                  <li>Home</li>
+                </Link>
+                <Link to="/Jobs">
+                  {" "}
+                  <li>Jobs</li>
+                </Link>
+                <Link to="/Browse">
+                  {" "}
+                  <li>Browse</li>
+                </Link>
+              </>
+            )}
           </ul>
           {!user ? (
             <div className="flex items-center gap-2 ">
@@ -101,13 +118,18 @@ const Navbar = () => {
                     </div>
                   </div>
                   <div className="flex flex-col  text-gray-600">
-                    <div className="flex w-fit items-center gap-2 cursor-pointer">
-                      <User2 />
-                      <Button variant="link">
-                        {" "}
-                        <Link to="/profile">View Profile</Link>
-                      </Button>
-                    </div>
+                    {user && user?.role === "student" && (
+                      <>
+                        <div className="flex w-fit items-center gap-2 cursor-pointer">
+                          <User2 />
+                          <Button variant="link">
+                            {" "}
+                            <Link to="/profile">View Profile</Link>
+                          </Button>
+                        </div>
+                      </>
+                    )}
+
                     <div className="flex w-fit items-center gap-2 cursor-pointer">
                       <LogOut />
                       <Button
