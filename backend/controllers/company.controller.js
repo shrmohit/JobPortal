@@ -1,4 +1,6 @@
 import { Company } from "../models/company.model.js";
+import cloudinary from "../utils/cloudinar.js";
+import getDataUri from "../utils/datauri.js";
 
 /*
 register company controller logic
@@ -87,12 +89,16 @@ export const updateCompany = async (req, res) => {
     const { name, description, website, location } = req.body;
     const file = req.file;
     //idhar cloudinary aayega
+    const fileUri = getDataUri(file);
+    const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+    const logo = cloudResponse.secure_url;
 
     const updateData = {
       name,
       description,
       website,
       location,
+      logo,
     };
 
     let company = await Company.findByIdAndUpdate(req.params.id, updateData, {
