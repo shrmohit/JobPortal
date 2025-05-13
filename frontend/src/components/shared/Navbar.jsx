@@ -17,7 +17,7 @@ import { USER_API_END_POINT } from "../../utils/constant";
 
 const Navbar = () => {
   const { user } = useSelector((store) => store.auth);
-  console.log("User is", user, user.role);
+  // console.log("User is", user, user?.role);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ const Navbar = () => {
         toast.success(res.data.message);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       toast.error(error.response.data.message);
     }
   };

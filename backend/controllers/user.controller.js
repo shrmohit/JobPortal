@@ -146,6 +146,7 @@ export const updateProfile = async (req, res) => {
 
     const fileUri = getDataUri(file);
     const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+
     // cloudinary ayega idhar
     const userId = req.id;
     let user = await User.findById(userId);
