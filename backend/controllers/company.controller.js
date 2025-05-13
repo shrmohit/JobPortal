@@ -92,6 +92,7 @@ export const updateCompany = async (req, res) => {
     const fileUri = getDataUri(file);
     const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
     const logo = cloudResponse.secure_url;
+    // console.log(logo);
 
     const updateData = {
       name,
