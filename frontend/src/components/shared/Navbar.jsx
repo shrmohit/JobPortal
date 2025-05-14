@@ -97,20 +97,24 @@ const Navbar = () => {
                 <PopoverTrigger asChild>
                   <Avatar className="cursor-pointer">
                     <AvatarImage
-                      // src={user?.profile?.profilePhoto}
-                      src="https://i.pravatar.cc/300"
-                      alt="@shadcn"
+                      src={user?.profile?.profilePhoto}
+                      // src="https://i.pravatar.cc/300"
+                      alt={user?.fullname}
                     />
+                    <AvatarFallback>{user?.fullname?.charAt(0)}</AvatarFallback>
                   </Avatar>
                 </PopoverTrigger>
                 <PopoverContent className="w-80">
                   <div className="flex gap-4 space-y-2">
                     <Avatar className="cursor-pointer">
                       <AvatarImage
-                        // src={user?.profile?.profilePhoto}
-                        src="https://i.pravatar.cc/300"
+                        src={user?.profile?.profilePhoto}
+                        // src="https://i.pravatar.cc/300"
                         alt="@shadcn"
                       />
+                      <AvatarFallback>
+                        {user?.fullname?.charAt(0)}
+                      </AvatarFallback>
                     </Avatar>
                     <div>
                       <h4 className="font-medium">{user?.fullname}</h4>
@@ -118,7 +122,7 @@ const Navbar = () => {
                     </div>
                   </div>
                   <div className="flex flex-col  text-gray-600">
-                    {user && user?.role === "student" && (
+                    {user && user?.role === "Student" && (
                       <>
                         <div className="flex w-fit items-center gap-2 cursor-pointer">
                           <User2 />

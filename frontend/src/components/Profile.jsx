@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "./shared/Navbar";
-import { Avatar, AvatarImage } from "./ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { Contact, Mail, Pen } from "lucide-react";
 import { Badge } from "./ui/badge";
@@ -23,9 +23,12 @@ const Profile = () => {
           <div className="flex items-center gap-4">
             <Avatar className="h-24 w-24">
               <AvatarImage
-                src="https://www.shutterstock.com/image-vector/circle-line-simple-design-logo-600nw-2174926871.jpg"
+                // src="https://www.shutterstock.com/image-vector/circle-line-simple-design-logo-600nw-2174926871.jpg"
                 alt="profile"
               />
+              <AvatarFallback className="text-4xl">
+                {user?.fullname?.charAt(0)}
+              </AvatarFallback>
             </Avatar>
             <div>
               <h1 className="font-medium text-xl">{user?.fullname}</h1>
