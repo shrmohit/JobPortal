@@ -17,6 +17,7 @@ const useGetAllJobs = () => {
             withCredentials: true,
           }
         );
+
         if (res.data.success) {
           dispatch(setAllJobs(res.data.jobs));
         }

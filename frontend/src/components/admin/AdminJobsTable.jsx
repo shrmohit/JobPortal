@@ -15,14 +15,10 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const AminJobsTable = () => {
-  const { companies, searchCompanyByText } = useSelector(
-    (store) => store.company
-  );
   const { allAdminJobs, searchJobByText } = useSelector((store) => store.job);
   const [filterJobs, setFilterJobs] = useState(allAdminJobs);
   const navigate = useNavigate();
   useEffect(() => {
-    console.log("Jobs from Redux: ", allAdminJobs);
     const filteredJobs =
       (allAdminJobs?.length >= 0 &&
         allAdminJobs?.filter((job) => {

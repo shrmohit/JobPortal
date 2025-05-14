@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Label } from "./ui/label";
+import { useDispatch } from "react-redux";
+import { setSearchedQuery } from "../redux/JobSlice";
 
 const fitlerData = [
   {
@@ -18,11 +20,23 @@ const fitlerData = [
 ];
 
 const FilterCard = () => {
+  const [selectValue, setSelectValue] = useState("");
+  const dispatch = useDispatch();
+  const getFilterHandler = (value) => {
+    setSelectValue(value);
+  };
+
+  useEffect(() => {
+    dispatch(setSearchedQuery(selectValue));
+  }, [selectValue]);
   return (
     <div className="w-full bg-white p-3 rounded-md">
       <h1 className="font-bold text-lg">Filter Jobs</h1>
       <hr className="mt-3" />
-      <RadioGroup>
+      <RadioGroup
+        value={selectValue}
+        onValueChange={getFilterHandler}
+      >
         {fitlerData.map((data, index) => (
           <div>
             <h1 className="font-bold text-lg">{data.fitlerType}</h1>
@@ -33,8 +47,14 @@ const FilterCard = () => {
                   <RadioGroupItem
                     value={item}
                     id={itemId}
+                    key={itemId}
                   />
-                  <Label htmlFor={itemId}>{item}</Label>
+                  <Label
+                    htmlFor={itemId}
+                    value={selectValue}
+                  >
+                    {item}
+                  </Label>
                 </div>
               );
             })}
