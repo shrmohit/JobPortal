@@ -14,14 +14,11 @@ import { toast } from "sonner";
 const JobDescription = () => {
   const { user } = useSelector((store) => store.auth);
   const { singleJob } = useSelector((store) => store.job);
-  const isIntiallyApplied =
-    singleJob?.applications?.some(
-      (application) => application.applicant === user?._id
-    ) || false;
-  const [isApplied, setIsApplied] = useState(isIntiallyApplied);
   const params = useParams();
   const jobId = params.id;
   const dispatch = useDispatch();
+
+  const [isApplied, setIsApplied] = useState(false);
 
   const applyJobHandler = async () => {
     try {
@@ -56,18 +53,24 @@ const JobDescription = () => {
 
         if (res.data.success) {
           dispatch(setSingleJob(res.data.job));
-          setIsApplied(
-            res.data.job.applications.some(
-              (application) => application.applicant === user?._id
-            )
-          );
         }
       } catch (error) {
         console.log(error);
       }
     };
     fetchSingleJob();
-  }, [jobId, dispatch, user?._id]);
+  }, [jobId, dispatch]);
+
+  // update whwn user applied and some return match condition
+  useEffect(() => {
+    if (singleJob && user?._id) {
+      const applied = singleJob?.applications?.some(
+        (application) => application.applicant === user?._id
+      );
+      setIsApplied(applied);
+    }
+  }, [singleJob, user]);
+
   return (
     <div className="max-w-7xl mx-auto my-10 p-12">
       <div className="flex items-center justify-between">
@@ -78,7 +81,8 @@ const JobDescription = () => {
               className={"text-blue-700 font-bold"}
               variant="ghost"
             >
-              {singleJob?.position} Positions
+              {singleJob?.position}{" "}
+              {singleJob?.position > 1 ? "Positions" : "Position"}
             </Badge>
             <Badge
               className={"text-[#F83002] font-bold"}
