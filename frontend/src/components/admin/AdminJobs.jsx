@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { setSearchCompanyByText } from "../../redux/companySlice";
 import AdminJobsTable from "./AdminJobsTable";
 import useGetAllAdminJobs from "../hooks/useGetAllAdminJobs";
-import { setSearchJobByText } from "../../redux/JobSlice";
+import { setSearchJobByText } from "../../redux/jobSlice";
 
 const AdminJobs = () => {
   useGetAllAdminJobs();
