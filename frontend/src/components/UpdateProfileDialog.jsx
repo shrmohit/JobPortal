@@ -13,7 +13,7 @@ import { Loader2 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { USER_API_END_POINT } from "@/utils/constant";
-import { setUser } from "../../redux/authSlice";
+import { setUser } from "../redux/authSlice";
 import { toast } from "sonner";
 
 const UpdateProfileDialog = ({ open, setOpen }) => {
@@ -41,7 +41,6 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(input);
 
     const formData = new FormData();
     formData.append("fullname", input.fullname);
@@ -75,7 +74,6 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
       setLoading(false);
     }
     setOpen(false);
-    console.log(input);
   };
 
   return (

@@ -79,16 +79,13 @@ export const getApplicants = async (req, res) => {
   try {
     const jobId = req.params.id;
 
-    const applicants = await Application.find({ job: jobId }).populate({
-      path: "applications",
-      options: { sort: { createdAt: -1 } },
-      populate: {
-        path: "applicant",
-      },
-    });
-    if (!applicants) {
+    const applicants = await Application.find({ job: jobId })
+      .sort({ createdAt: -1 }) // sort directly if needed
+      .populate("applicant"); // assuming applicant is a ref field
+
+    if (!applicants || applicants.length === 0) {
       return res.status(404).json({
-        message: "Job not found",
+        message: "No applicants found for this job",
         success: false,
       });
     }
@@ -99,6 +96,7 @@ export const getApplicants = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).json({ success: false, message: "Server error" });
   }
 };
 
