@@ -3,7 +3,7 @@ import { Button } from "./ui/button";
 import { Search } from "lucide-react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setSearchedQuery } from "../redux/JobSlice";
+import { setSearchedQuery } from "../redux/jobSlice";
 import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
