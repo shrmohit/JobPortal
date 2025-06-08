@@ -1,8 +1,8 @@
-import { User } from "../models/user.model.js";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import getDataUri from "../utils/datauri.js";
-import cloudinary from "../utils/cloudinar.js";
+import { User } from '../models/user.model.js';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import getDataUri from '../utils/datauri.js';
+import cloudinary from '../utils/cloudinar.js';
 
 // register user controller logic
 export const register = async (req, res) => {
@@ -12,20 +12,22 @@ export const register = async (req, res) => {
       role.charAt(0).toUpperCase() + role.slice(1).toLowerCase(); // makes "student" -> "Student"
     if (!fullname || !email || !password || !phoneNumber || !role) {
       return res.status(400).json({
-        message: "something is missing",
+        message: 'something is missing',
         success: false,
       });
     }
 
     //cloudinary
     const file = req.file;
+    console.log('file', file);
+
     const fileUri = getDataUri(file);
     const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
     //jab same email se user dubara register karta hai to use below code check karta hai
     const user = await User.findOne({ email });
     if (user) {
       return res.status(400).json({
-        message: "user already exists",
+        message: 'user already exists',
         success: false,
       });
     }
@@ -44,7 +46,7 @@ export const register = async (req, res) => {
     });
 
     return res.status(201).json({
-      message: "Account created successfully",
+      message: 'Account created successfully',
       success: true,
     });
   } catch (error) {
@@ -56,10 +58,11 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
+    console.log('login');
     const { email, password, role } = req.body;
     if (!email || !password || !role) {
       return res.status(400).json({
-        message: "something is missing",
+        message: 'something is missing',
         success: false,
       });
     }
@@ -68,7 +71,7 @@ export const login = async (req, res) => {
     // user usi email se login karega jisse usne register kara hai or wahi uske database me hogi
     if (!user) {
       return res.status(400).json({
-        message: "Incorrect email and password",
+        message: 'Incorrect email and password',
         success: false,
       });
     }
@@ -77,7 +80,7 @@ export const login = async (req, res) => {
     const ispasswordMatch = await bcrypt.compare(password, user.password);
     if (!ispasswordMatch) {
       return res.status(400).json({
-        message: "Incorrect email and password",
+        message: 'Incorrect email and password',
         success: false,
       });
     }
@@ -85,7 +88,7 @@ export const login = async (req, res) => {
     // check role correct or not
     if (role !== user.role) {
       return res.status(400).json({
-        message: "Account does not exist with current role",
+        message: 'Account does not exist with current role',
         success: false,
       });
     }
@@ -95,7 +98,7 @@ export const login = async (req, res) => {
       userId: user._id,
     };
     const token = await jwt.sign(tokenData, process.env.SECRET_KEY, {
-      expiresIn: "1d",
+      expiresIn: '1d',
     });
 
     user = {
@@ -110,10 +113,10 @@ export const login = async (req, res) => {
     // token ko cookie me store karna hai  and ye wli line security ke liye hai maxAge: 1 * 24 * 60 * 60 * 1000,httpOnly: true, sameSite: "strict",
     return res
       .status(200)
-      .cookie("token", token, {
+      .cookie('token', token, {
         maxAge: 1 * 24 * 60 * 60 * 1000,
         httpOnly: true,
-        sameSite: "strict",
+        sameSite: 'strict',
       })
       .json({
         message: `Welcome back ${user.fullname}`,
@@ -128,8 +131,8 @@ export const login = async (req, res) => {
 // logout user controller logic
 export const logout = async (req, res) => {
   try {
-    return res.status(200).cookie("token", "", { maxAge: 0 }).json({
-      message: "logged out sucessfully",
+    return res.status(200).cookie('token', '', { maxAge: 0 }).json({
+      message: 'logged out sucessfully',
       success: true,
     });
   } catch (error) {
@@ -153,7 +156,7 @@ export const updateProfile = async (req, res) => {
 
     if (!user) {
       return res.status(400).json({
-        message: "User not found",
+        message: 'User not found',
         success: false,
       });
     }
@@ -165,7 +168,7 @@ export const updateProfile = async (req, res) => {
 
     let skillsArray;
     if (skills) {
-      skillsArray = skills.split(",");
+      skillsArray = skills.split(',');
     }
 
     // ✅ Now safe to update fields
@@ -183,14 +186,14 @@ export const updateProfile = async (req, res) => {
     await user.save();
 
     return res.status(200).json({
-      message: "Profile updated successfully",
+      message: 'Profile updated successfully',
       user,
       success: true,
     });
   } catch (error) {
-    console.error("UpdateProfile Error:", error);
+    console.error('UpdateProfile Error:', error);
     return res.status(500).json({
-      message: "Something went wrong",
+      message: 'Something went wrong',
       success: false,
     });
   }

@@ -1,19 +1,19 @@
-import React from "react";
+import React from 'react';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { LogOut, User2 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+} from '@/components/ui/popover';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { LogOut, User2 } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "@/redux/authSlice";
-import { toast } from "sonner";
-import axios from "axios";
-import { USER_API_END_POINT } from "../../utils/constant";
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from '@/redux/authSlice';
+import { toast } from 'sonner';
+import axios from 'axios';
+import { USER_API_END_POINT } from '../../utils/constant';
 
 const Navbar = () => {
   const { user } = useSelector((store) => store.auth);
@@ -28,7 +28,7 @@ const Navbar = () => {
       });
       if (res.data.success) {
         dispatch(setUser(null));
-        navigate("/");
+        navigate('/');
         toast.success(res.data.message);
       }
     } catch (error) {
@@ -37,56 +37,56 @@ const Navbar = () => {
     }
   };
   return (
-    <div className="bg-white px-10 py-5">
-      <div className="flex justify-between items-center mx-auto max-w-7xl ">
+    <div className='bg-white px-10 py-5'>
+      <div className='flex justify-between items-center mx-auto max-w-7xl '>
         <div>
-          <h1 className="text-2xl font-bold">
-            Job <span className="text-[#F83002]">Portal</span>
+          <h1 className='text-2xl font-bold'>
+            Job <span className='text-[#F83002]'>Portal</span>
           </h1>
         </div>
-        <div className="flex items-center gap-12">
-          <ul className="flex items-center gap-5 font-medium cursor-pointer">
-            {user && user?.role?.toLowerCase() === "recruiter" ? (
+        <div className='flex items-center gap-12'>
+          <ul className='flex items-center gap-5 font-medium cursor-pointer'>
+            {user && user?.role?.toLowerCase() === 'recruiter' ? (
               <>
-                <Link to="/admin/companies">
-                  {" "}
-                  <li>Comapny</li>
+                <Link to='/admin/companies'>
+                  {' '}
+                  <li>Company</li>
                 </Link>
-                <Link to="/admin/jobs">
-                  {" "}
+                <Link to='/admin/jobs'>
+                  {' '}
                   <li>Jobs</li>
                 </Link>
               </>
             ) : (
               <>
-                <Link to="/">
-                  {" "}
+                <Link to='/'>
+                  {' '}
                   <li>Home</li>
                 </Link>
-                <Link to="/Jobs">
-                  {" "}
+                <Link to='/Jobs'>
+                  {' '}
                   <li>Jobs</li>
                 </Link>
-                <Link to="/Browse">
-                  {" "}
+                <Link to='/Browse'>
+                  {' '}
                   <li>Browse</li>
                 </Link>
               </>
             )}
           </ul>
           {!user ? (
-            <div className="flex items-center gap-2 ">
-              <Link to="/login">
-                {" "}
+            <div className='flex items-center gap-2 '>
+              <Link to='/login'>
+                {' '}
                 <Button
-                  variant="outline"
-                  className="cursor-pointer"
+                  variant='outline'
+                  className='cursor-pointer'
                 >
                   Login
                 </Button>
               </Link>
-              <Link to="/Signup">
-                <Button className="bg-[#6A38C2] hover:bg-[#5b30a6] cursor-pointer">
+              <Link to='/Signup'>
+                <Button className='bg-[#6A38C2] hover:bg-[#5b30a6] cursor-pointer'>
                   Signup
                 </Button>
               </Link>
@@ -95,7 +95,7 @@ const Navbar = () => {
             <div>
               <Popover>
                 <PopoverTrigger asChild>
-                  <Avatar className="cursor-pointer">
+                  <Avatar className='cursor-pointer'>
                     <AvatarImage
                       src={user?.profile?.profilePhoto}
                       // src="https://i.pravatar.cc/300"
@@ -104,41 +104,41 @@ const Navbar = () => {
                     <AvatarFallback>{user?.fullname?.charAt(0)}</AvatarFallback>
                   </Avatar>
                 </PopoverTrigger>
-                <PopoverContent className="w-80">
-                  <div className="flex gap-4 space-y-2">
-                    <Avatar className="cursor-pointer">
+                <PopoverContent className='w-80'>
+                  <div className='flex gap-4 space-y-2'>
+                    <Avatar className='cursor-pointer'>
                       <AvatarImage
                         src={user?.profile?.profilePhoto}
                         // src="https://i.pravatar.cc/300"
-                        alt="@shadcn"
+                        alt='@shadcn'
                       />
                       <AvatarFallback>
                         {user?.fullname?.charAt(0)}
                       </AvatarFallback>
                     </Avatar>
                     <div>
-                      <h4 className="font-medium">{user?.fullname}</h4>
+                      <h4 className='font-medium'>{user?.fullname}</h4>
                       <p>{user?.profile?.bio}</p>
                     </div>
                   </div>
-                  <div className="flex flex-col  text-gray-600">
-                    {user && user?.role === "Student" && (
+                  <div className='flex flex-col  text-gray-600'>
+                    {user && user?.role === 'Student' && (
                       <>
-                        <div className="flex w-fit items-center gap-2 cursor-pointer">
+                        <div className='flex w-fit items-center gap-2 cursor-pointer'>
                           <User2 />
-                          <Button variant="link">
-                            {" "}
-                            <Link to="/profile">View Profile</Link>
+                          <Button variant='link'>
+                            {' '}
+                            <Link to='/profile'>View Profile</Link>
                           </Button>
                         </div>
                       </>
                     )}
 
-                    <div className="flex w-fit items-center gap-2 cursor-pointer">
+                    <div className='flex w-fit items-center gap-2 cursor-pointer'>
                       <LogOut />
                       <Button
                         onClick={logoutHandler}
-                        variant="link"
+                        variant='link'
                       >
                         Logout
                       </Button>

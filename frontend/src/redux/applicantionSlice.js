@@ -1,9 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const applicationSlice = createSlice({
-  name: "application",
+  name: 'application',
   initialState: {
-    applicants: null,
+    applicants: [],
   },
   reducers: {
     setAllApplicants: (state, action) => {

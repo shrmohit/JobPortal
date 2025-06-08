@@ -1,4 +1,5 @@
-import { Job } from "../models/job.model.js";
+import { Job } from '../models/job.model.js';
+import mongoose from 'mongoose';
 
 export const postJob = async (req, res) => {
   try {
@@ -19,8 +20,6 @@ export const postJob = async (req, res) => {
       !title ||
       !description ||
       !location ||
-      !companyId ||
-      !experience ||
       !salary ||
       !requirements ||
       !experience ||
@@ -28,7 +27,14 @@ export const postJob = async (req, res) => {
       !jobType
     ) {
       return res.status(400).json({
-        message: "something is missing",
+        message: 'something is missing',
+        success: false,
+      });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(companyId)) {
+      return res.status(400).json({
+        message: 'Invalid companyId format. Must be a valid ObjectId.',
         success: false,
       });
     }
@@ -38,7 +44,7 @@ export const postJob = async (req, res) => {
       description,
       requirements: Array.isArray(requirements)
         ? requirements
-        : requirements.split(","),
+        : requirements.split(','),
       location,
 
       experienceLevel: experience,
@@ -50,12 +56,12 @@ export const postJob = async (req, res) => {
     });
 
     return res.status(201).json({
-      message: "New job created successfully",
+      message: 'New job created successfully',
       job,
       success: true,
     });
   } catch (error) {
-    console.log(error);
+    console.log('post job', error);
   }
 };
 
@@ -64,12 +70,12 @@ export const postJob = async (req, res) => {
 export const getAllJobs = async (req, res) => {
   try {
     // add filtering in get jobs
-    const keyword = req.query.keyword || "";
+    const keyword = req.query.keyword || '';
     //create a query
     const query = {
       $or: [
-        { title: { $regex: keyword, $options: "i" } },
-        { description: { $regex: keyword, $options: "i" } },
+        { title: { $regex: keyword, $options: 'i' } },
+        { description: { $regex: keyword, $options: 'i' } },
       ],
     };
 
@@ -79,11 +85,11 @@ export const getAllJobs = async (req, res) => {
       jo company ki id hai job me. Aur sort ka use hame latest job pehle dikhane ke liye hota hai.
      */
     const jobs = await Job.find(query)
-      .populate({ path: "company" })
+      .populate({ path: 'company' })
       .sort({ createdAt: -1 });
     if (!jobs) {
       return res.status(404).json({
-        message: "Jobs not found",
+        message: 'Jobs not found',
         success: false,
       });
     }
@@ -105,7 +111,7 @@ export const getJobById = async (req, res) => {
     const job = await Job.findById(jobId);
     if (!job) {
       return res.status(404).json({
-        message: "Job not found",
+        message: 'Job not found',
         success: false,
       });
     }
@@ -124,14 +130,14 @@ export const getJobById = async (req, res) => {
 export const getAdminJobs = async (req, res) => {
   try {
     const adminId = req.id;
-    console.log("Current user ID:", req.id);
+    console.log('Current user ID:', req.id);
     const jobs = await Job.find({ created_by: adminId }).populate({
-      path: "company",
+      path: 'company',
     });
-    console.log("Matching jobs:", jobs);
+    console.log('Matching jobs:', jobs);
     if (!jobs) {
       return res.status(404).json({
-        message: "Jobs not found",
+        message: 'Jobs not found',
         success: false,
       });
     }
