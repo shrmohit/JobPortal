@@ -1,5 +1,5 @@
-import { Application } from "../models/application.model.js";
-import { Job } from "../models/job.model.js";
+import { Application } from '../models/application.model.js';
+import { Job } from '../models/job.model.js';
 
 export const applyJob = async (req, res) => {
   try {
@@ -7,7 +7,7 @@ export const applyJob = async (req, res) => {
     const jobId = req.params.id;
     if (!jobId) {
       return res.status(400).json({
-        message: "Job id is required",
+        message: 'Job id is required',
         success: false,
       });
     }
@@ -18,7 +18,7 @@ export const applyJob = async (req, res) => {
     });
     if (existingApplication) {
       return res.status(400).json({
-        message: "You have already applied for this job",
+        message: 'You have already applied for this job',
         success: false,
       });
     }
@@ -26,7 +26,7 @@ export const applyJob = async (req, res) => {
     const job = await Job.findById(jobId);
     if (!job) {
       return res.status(400).json({
-        message: "Job not found",
+        message: 'Job not found',
         success: false,
       });
     }
@@ -41,7 +41,7 @@ export const applyJob = async (req, res) => {
     job.applications.push(newApplication._id);
     await job.save();
     return res.status(201).json({
-      message: "Job applied successfully",
+      message: 'Job applied successfully',
       success: true,
     });
   } catch (error) {
@@ -54,13 +54,13 @@ export const getAllAppliedJobs = async (req, res) => {
   try {
     const userId = req.id;
     const application = await Application.find({ applicant: userId }).populate({
-      path: "job",
-      populate: { path: "company" },
+      path: 'job',
+      populate: { path: 'company' },
     });
 
     if (!application) {
       return res.status(404).json({
-        message: "Application not found",
+        message: 'Application not found',
         success: false,
       });
     }
@@ -81,11 +81,11 @@ export const getApplicants = async (req, res) => {
 
     const applicants = await Application.find({ job: jobId })
       .sort({ createdAt: -1 }) // sort directly if needed
-      .populate("applicant"); // assuming applicant is a ref field
+      .populate('applicant'); // assuming applicant is a ref field
 
     if (!applicants || applicants.length === 0) {
       return res.status(404).json({
-        message: "No applicants found for this job",
+        message: 'No applicants found for this job',
         success: false,
       });
     }
@@ -96,7 +96,7 @@ export const getApplicants = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ success: false, message: "Server error" });
+    res.status(500).json({ success: false, message: 'Server error' });
   }
 };
 
@@ -110,17 +110,17 @@ export const updateStatus = async (req, res) => {
 
     if (!status) {
       return res.status(400).json({
-        message: "Status is required",
+        message: 'Status is required',
         success: false,
       });
     }
 
     //find the application by application id
     const application = await Application.findById(applicationId);
-    console.log("📄 Fetched Application:", application);
+    console.log('📄 Fetched Application:', application);
     if (!application) {
       return res.status(404).json({
-        message: "Application not found",
+        message: 'Application not found',
         success: false,
       });
     }
@@ -130,7 +130,7 @@ export const updateStatus = async (req, res) => {
     await application.save(); //??
 
     return res.status(200).json({
-      message: "Status Update successfully",
+      message: 'Status Update successfully',
       success: true,
     });
   } catch (error) {
