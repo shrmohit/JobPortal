@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema(
   {
@@ -21,19 +21,19 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["Student", "Recruiter"],
-      default: "Student",
+      enum: ['Student', 'Recruiter'],
+      default: 'Student',
     },
     profile: {
-      bio: { type: String, default: "" },
+      bio: { type: String, default: '' },
       skills: [{ type: String }],
       resume: { type: String },
-      resumeOriginalName: { type: String, default: "" },
-      company: { type: mongoose.Schema.Types.ObjectId, ref: "company" },
-      profilePhoto: { type: String, default: "" },
+      resumeOriginalName: { type: String, default: '' },
+      company: { type: mongoose.Schema.Types.ObjectId, ref: 'company' },
+      profilePhoto: { type: String, default: '', required: false },
     },
   },
   { timestamps: true }
 );
 
-export const User = mongoose.model("User", userSchema);
+export const User = mongoose.model('User', userSchema);

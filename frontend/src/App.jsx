@@ -13,6 +13,7 @@ import AdminJobs from './components/admin/AdminJobs';
 import PostJob from './components/admin/PostJob';
 import Applicants from './components/admin/Applicants';
 import ProtectedRoute from './components/admin/ProtectedRoute';
+import ApplicantsTable from './components/admin/ApplicantsTable';
 
 function App() {
   const appRouter = createBrowserRouter([
@@ -69,6 +70,10 @@ function App() {
       path: '/admin/job/:id/applicants',
       element: <Applicants />,
     },
+    // {
+    //   path: '/application/:id/applicant',
+    //   element: <ApplicantsTable />,
+    // },
   ]);
   return (
     <>
