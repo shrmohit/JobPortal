@@ -8,10 +8,21 @@ import companyRouter from './routes/company.route.js';
 import jobRouter from './routes/job.route.js';
 import applicationRouter from './routes/application.route.js';
 import path from 'path';
-
+import { fileURLToPath } from 'url';
 dotenv.config();
 
 const app = express();
+// Handle __dirname in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve static frontend files
+app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
+
+// Handle all routes (React Router)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
+});
 
 const _dirname = path.resolve();
 
