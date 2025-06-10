@@ -40,7 +40,10 @@ const Navbar = () => {
     <div className='bg-white px-10 py-5'>
       <div className='flex justify-between items-center mx-auto max-w-7xl '>
         <div>
-          <h1 className='text-2xl font-bold'>
+          <h1
+            className='text-2xl font-bold cursor-pointer'
+            onClick={() => navigate('/')}
+          >
             Job <span className='text-[#F83002]'>Portal</span>
           </h1>
         </div>

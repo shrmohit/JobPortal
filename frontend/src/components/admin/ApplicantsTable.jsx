@@ -25,7 +25,6 @@ const ApplicantsTable = () => {
   const dispatch = useDispatch();
 
   const statusHandler = async (status, id) => {
-    console.log('status Handler ', status, id);
     try {
       // 1. Update status
       const res = await axios.put(
@@ -36,8 +35,6 @@ const ApplicantsTable = () => {
         }
       );
 
-      console.log('Status ', res);
-
       // 2. Refetch all applicants after update
       const allRes = await axios.get(
         `${APPLICATION_API_END_POINT}/${params.id}/applicants`,
@@ -46,9 +43,7 @@ const ApplicantsTable = () => {
         }
       );
 
-      console.log('All ', allRes);
-
-      dispatch(setAllApplicants(allRes.data.applicants)); // Must be full array
+      dispatch(setAllApplicants(allRes.data.applicants));
 
       if (res.data.success) {
         toast.success(res.data.message);
@@ -100,7 +95,7 @@ const ApplicantsTable = () => {
                     <PopoverTrigger>
                       <MoreHorizontal />
                     </PopoverTrigger>
-                    <PopoverContent className='w-32'>
+                    <PopoverContent className='w-32 cursor-pointer'>
                       {shortlistingStatus.map((status, index) => {
                         return (
                           <div

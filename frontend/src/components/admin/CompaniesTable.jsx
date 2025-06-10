@@ -21,7 +21,6 @@ const CompaniesTable = () => {
   const [filterCompany, setFilterCompany] = useState(companies);
   const navigate = useNavigate();
   useEffect(() => {
-    console.log('Companies from Redux: ', companies);
     const filteredCompany =
       (companies?.length >= 0 &&
         companies?.filter((company) => {

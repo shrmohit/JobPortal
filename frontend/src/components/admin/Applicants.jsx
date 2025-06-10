@@ -13,21 +13,15 @@ const Applicants = () => {
   const { applicants } = useSelector((store) => store.application);
 
   useEffect(() => {
-    console.log('Applicants');
     const fetchAllApplicants = async () => {
       try {
-        console.log('id', params.id);
-
         const res = await axios.get(
           `${APPLICATION_API_END_POINT}/${params.id}/applicants`,
           { withCredentials: true }
         );
 
-        console.log('data', res.data.applicants);
         dispatch(setAllApplicants(res.data.applicants));
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
     fetchAllApplicants();
   }, []);
