@@ -76,8 +76,12 @@ export const getAllAppliedJobs = async (req, res) => {
 
 // admin dekhega ki kitne user ne apply kiya hai
 export const getApplicants = async (req, res) => {
+  console.log('getApplicants');
   try {
     const jobId = req.params.id;
+    const id = req.id;
+
+    console.log('ID ', jobId);
 
     const applicants = await Application.find({ job: jobId })
       .sort({ createdAt: -1 }) // sort directly if needed
@@ -102,10 +106,11 @@ export const getApplicants = async (req, res) => {
 
 // update ststus of applicant
 export const updateStatus = async (req, res) => {
+  console.log('status');
   try {
     const { status } = req.body;
     const applicationId = req.params.id;
-    console.log(applicationId);
+    console.log('aid ', applicationId);
     console.log(status);
 
     if (!status) {

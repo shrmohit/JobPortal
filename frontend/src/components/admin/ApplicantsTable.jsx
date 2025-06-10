@@ -15,15 +15,17 @@ import { toast } from 'sonner';
 import { APPLICATION_API_END_POINT } from '../../utils/constant';
 import axios from 'axios';
 import { setAllApplicants } from '../../redux/applicantionSlice';
+import { useParams } from 'react-router-dom';
 
 const shortlistingStatus = ['Accepted', 'Rejected'];
 
 const ApplicantsTable = () => {
+  const params = useParams();
   const { applicants } = useSelector((store) => store.application);
   const dispatch = useDispatch();
 
   const statusHandler = async (status, id) => {
-    console.log('status Handler');
+    console.log('status Handler ', status, id);
     try {
       // 1. Update status
       const res = await axios.put(
@@ -34,13 +36,17 @@ const ApplicantsTable = () => {
         }
       );
 
+      console.log('Status ', res);
+
       // 2. Refetch all applicants after update
       const allRes = await axios.get(
-        `${APPLICATION_API_END_POINT}/applicants`,
+        `${APPLICATION_API_END_POINT}/${params.id}/applicants`,
         {
           withCredentials: true,
         }
       );
+
+      console.log('All ', allRes);
 
       dispatch(setAllApplicants(allRes.data.applicants)); // Must be full array
 

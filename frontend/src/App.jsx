@@ -63,17 +63,13 @@ function App() {
       element: <AdminJobs />,
     },
     {
-      path: '/admin/job',
+      path: '/admin/job/create',
       element: <PostJob />,
     },
     {
       path: '/admin/job/:id/applicants',
       element: <Applicants />,
     },
-    // {
-    //   path: '/application/:id/applicant',
-    //   element: <ApplicantsTable />,
-    // },
   ]);
   return (
     <>
