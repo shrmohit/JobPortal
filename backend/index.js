@@ -21,8 +21,8 @@ const __dirname = path.dirname(__filename);
 
 app.use(cors({
   origin: [
-    "http://localhost:5173",                    // for local development
-    "https://job-portal-ulkk.vercel.app"        // ✅ correct production frontend URL
+    "http://localhost:5173",
+    "https://job-portal-ulkk.vercel.app"
   ],
   credentials: true,
 }));
