@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:8000/api/';
+const BASE_URL = 'https://jobportal-bdju.onrender.com/api/';
 
 export const USER_API_END_POINT = BASE_URL + 'v1/user';
 export const JOB_API_END_POINT = BASE_URL + 'v1/job';
