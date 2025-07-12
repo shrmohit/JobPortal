@@ -21,7 +21,7 @@ const __dirname = path.dirname(__filename);
 
 // Middleware
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "https://vercel.com/mohit-sharmas-projects-fc15baf5/job-portal-ulkk/3CJM3Wbfxr8Upbw7UqiAY4Qa8Vxc",
   credentials: true,
 }));
 app.use(express.json());
