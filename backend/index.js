@@ -19,11 +19,14 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Middleware
 app.use(cors({
-  origin: "https://vercel.com/mohit-sharmas-projects-fc15baf5/job-portal-ulkk/3CJM3Wbfxr8Upbw7UqiAY4Qa8Vxc",
+  origin: [
+    "http://localhost:5173",                    // for local development
+    "https://job-portal-ulkk.vercel.app"        // ✅ correct production frontend URL
+  ],
   credentials: true,
 }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
