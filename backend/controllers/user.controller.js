@@ -4,40 +4,51 @@ import jwt from 'jsonwebtoken';
 import getDataUri from '../utils/datauri.js';
 import cloudinary from '../utils/cloudinar.js';
 
-// register user controller logic
 export const register = async (req, res) => {
   try {
     const { fullname, email, password, phoneNumber, role } = req.body;
-    const normalizedRole =
-      role.charAt(0).toUpperCase() + role.slice(1).toLowerCase(); // makes "student" -> "Student"
+
+    // 🔐 Validation check
     if (!fullname || !email || !password || !phoneNumber || !role) {
       return res.status(400).json({
-        message: 'something is missing',
+        message: 'Something is missing',
         success: false,
       });
     }
 
-    //cloudinary
-    const file = req.file;
-    console.log('file', file);
+    // 🔄 Normalize role
+    const normalizedRole = role.charAt(0).toUpperCase() + role.slice(1).toLowerCase();
 
+    // ⚠️ Check if file was uploaded
+    const file = req.file;
+    if (!file) {
+      return res.status(400).json({
+        success: false,
+        message: "Profile picture is required.",
+      });
+    }
+
+    // 🔼 Upload image to Cloudinary
     const fileUri = getDataUri(file);
     const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
-    //jab same email se user dubara register karta hai to use below code check karta hai
+
+    // 📧 Check if user already exists
     const user = await User.findOne({ email });
     if (user) {
       return res.status(400).json({
-        message: 'user already exists',
+        message: 'User already exists',
         success: false,
       });
     }
-    // password ko hash karna
-    const hashedpassword = await bcrypt.hash(password, 10);
 
+    // 🔐 Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // ✅ Create user
     await User.create({
       fullname,
       email,
-      password: hashedpassword,
+      password: hashedPassword,
       phoneNumber,
       role: normalizedRole,
       profile: {
@@ -50,7 +61,11 @@ export const register = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.log(error);
+    console.error("Register Error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
   }
 };
 
