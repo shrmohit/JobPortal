@@ -15,9 +15,9 @@ dotenv.config();
 
 const app = express();
 
-// Get __dirname in ES module
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// // Get __dirname in ES module
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
 app.use(cors({
   origin:"http://localhost:5173/",
@@ -35,13 +35,13 @@ app.use('/api/v1/job', jobRouter);
 app.use('/api/v1/application', applicationRouter);
 
 // Only serve frontend in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
+// if (process.env.NODE_ENV === 'production') {
+//   app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
 
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
-  });
-}
+//   app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
+//   });
+// }
 
 const PORT = process.env.PORT || 8000;
 
